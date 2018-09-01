@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2016
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnumerableAssertTests", "test\EnumerableAssert\EnumerableAssertTests.csproj", "{F973B481-E95C-4554-8668-ED8E5525D102}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnumerableAssert", "src\EnumerableAssert\EnumerableAssert.csproj", "{DAC99E1F-24F3-4EC2-A66A-242C3556FDA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4AA1E211-F540-4646-8228-9D10B05015CB}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F973B481-E95C-4554-8668-ED8E5525D102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F973B481-E95C-4554-8668-ED8E5525D102}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F973B481-E95C-4554-8668-ED8E5525D102}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F973B481-E95C-4554-8668-ED8E5525D102}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAC99E1F-24F3-4EC2-A66A-242C3556FDA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAC99E1F-24F3-4EC2-A66A-242C3556FDA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAC99E1F-24F3-4EC2-A66A-242C3556FDA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAC99E1F-24F3-4EC2-A66A-242C3556FDA7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B39F712-7EB4-4AE7-9334-B261A3E8C556}
+	EndGlobalSection
+EndGlobal
