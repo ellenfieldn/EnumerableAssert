@@ -11,6 +11,7 @@
     <RepositoryUrl>https://github.com/ellenfieldn/MSTest.TestFramework.Contrib.EnumerableAssert</RepositoryUrl>
     <PackageReleaseNotes>Initial Alpha Release</PackageReleaseNotes>
     <PackageTags>assertions enumerable assert MSTest Unittest MSTestV2 Microsoft TestFramework TestAdapter VisualStudio</PackageTags>
+    <Version>0.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
