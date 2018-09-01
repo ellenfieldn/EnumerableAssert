@@ -12,6 +12,7 @@
     <PackageReleaseNotes>Initial Alpha Release</PackageReleaseNotes>
     <PackageTags>assertions enumerable assert MSTest Unittest MSTestV2 Microsoft TestFramework TestAdapter VisualStudio</PackageTags>
     <Version>0.1.0</Version>
+    <PackageId>MSTest.TestFramework.Contrib.EnumerableAssert</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
