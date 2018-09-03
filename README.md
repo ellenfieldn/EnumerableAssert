@@ -1,4 +1,4 @@
-# MSTest.TestFramework.Contrib.EnumerableAssert
+# EnumerableAssert
 Provides assertions for `IEnumerable<T>` that follow the same patterns as the assertion classes provided in MSTest.TestFramework
 
 Example:
