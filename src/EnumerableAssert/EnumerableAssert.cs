@@ -7,6 +7,24 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting.Contrib.EnumerableAssert
 {
     public sealed class EnumerableAssert
     {
+        private static EnumerableAssert that;
+
+        private EnumerableAssert()
+        {
+        }
+
+        public static EnumerableAssert That
+        {
+            get
+            {
+                if(that == null)
+                {
+                    that = new EnumerableAssert();
+                }
+                return that;
+            }
+        }
+
         public static void IsNullOrEmpty(IEnumerable enumerable)
         {
             if (enumerable != null && enumerable.GetEnumerator().MoveNext())
