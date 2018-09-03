@@ -9,9 +9,9 @@
     <PackageLicenseUrl>https://github.com/ellenfieldn/MSTest.TestFramework.Contrib.EnumerableAssert/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ellenfieldn/MSTest.TestFramework.Contrib.EnumerableAssert</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ellenfieldn/MSTest.TestFramework.Contrib.EnumerableAssert</RepositoryUrl>
-    <PackageReleaseNotes>Initial Alpha Release</PackageReleaseNotes>
+    <PackageReleaseNotes>Initial Alpha Release - Now with extensibility</PackageReleaseNotes>
     <PackageTags>assertions enumerable assert MSTest Unittest MSTestV2 Microsoft TestFramework TestAdapter VisualStudio</PackageTags>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
