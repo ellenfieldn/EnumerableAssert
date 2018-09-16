@@ -17,7 +17,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting.Contrib.EnumerableAssert
         {
             get
             {
-                if(that == null)
+                if (that == null)
                 {
                     that = new EnumerableAssert();
                 }
@@ -43,11 +43,11 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting.Contrib.EnumerableAssert
             {
                 throw new AssertFailedException("EnumerableAssert.Contains failed. Collection is null.");
             }
-            if(!enumerable.Any())
+            if (!enumerable.Any())
             {
                 throw new AssertFailedException("EnumerableAssert.Contains failed. Collection is empty.");
             }
-            if(!enumerable.Contains(item))
+            if (!enumerable.Contains(item))
             {
                 throw new AssertFailedException("EnumerableAssert.Contains failed. Collection does not contain the expected element.");
             }
@@ -88,11 +88,11 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting.Contrib.EnumerableAssert
                 throw new AssertFailedException("EnumerableAssert.ContainsOne failed. Collection is empty.");
             }
             var matches = enumerable.Where(i => i.Equals(item)).Count();
-            if(matches == 0)
+            if (matches == 0)
             {
                 throw new AssertFailedException("EnumerableAssert.ContainsOne failed. Collection does not contain the expected element.");
             }
-            if(matches > 1)
+            if (matches > 1)
             {
                 throw new AssertFailedException("EnumerableAssert.ContainsOne failed. Collection contains the expected element more than once.");
             }
@@ -181,10 +181,59 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting.Contrib.EnumerableAssert
             {
                 throw new AssertFailedException("EnumerableAssert.DoesNotContain failed. Collection is empty.");
             }
-            if(enumerable.Any(predicate))
+            if (enumerable.Any(predicate))
             {
                 throw new AssertFailedException("EnumerableAssert.DoesNotContain failed. Collection contains an element matching the predicate.");
             }
+        }
+
+        public static void AreEquivalent<T>(IEnumerable<T> source, IEnumerable<T> target, Func<T, T, bool> predicate)
+        {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+            if (source == null)
+            {
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Source enumerable is null.");
+            }
+            if (target == null)
+            {
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Target enumerable is null.");
+            }
+            if(source.Count() != target.Count())
+            {
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Source and target enumerables do not match.");
+            }
+            if (source.Except(target, new GenericEqualityComparer<T>(predicate)).Any())
+            {
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Source and target enumerables do not match.");
+            }
+        }
+
+        private class GenericEqualityComparer<T> : IEqualityComparer<T>
+        {
+            private Func<T, T, bool> _predicate;
+
+            public GenericEqualityComparer(Func<T, T, bool> predicate)
+            {
+                _predicate = predicate ?? throw new ArgumentNullException(nameof(predicate));
+            }
+
+            public bool Equals(T x, T y)
+            {
+                if(x == null && y == null)
+                {
+                    return true;
+                }
+                if(x == null || y == null)
+                {
+                    return false;
+                }
+                return _predicate(x, y);
+            }
+
+            public int GetHashCode(T obj) => 0; //This is bad
         }
     }
 }
