@@ -187,27 +187,31 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting.Contrib.EnumerableAssert
             }
         }
 
-        public static void AreEquivalent<T>(IEnumerable<T> source, IEnumerable<T> target, Func<T, T, bool> predicate)
+        public static void AreEquivalent<T>(IEnumerable<T> expected, IEnumerable<T> actual, Func<T, T, bool> predicate)
         {
             if (predicate == null)
             {
                 throw new ArgumentNullException(nameof(predicate));
             }
-            if (source == null)
+            if(expected == null && actual == null || ReferenceEquals(expected, actual))
             {
-                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Source enumerable is null.");
+                return;
             }
-            if (target == null)
+            if (expected == null)
             {
-                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Target enumerable is null.");
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Expected enumerable is null.");
             }
-            if(source.Count() != target.Count())
+            if (actual == null)
             {
-                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Source and target enumerables do not match.");
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Actual enumerable is null.");
             }
-            if (source.Except(target, new GenericEqualityComparer<T>(predicate)).Any())
+            if(expected.Count() != actual.Count())
             {
-                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Source and target enumerables do not match.");
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Expected and actual enumerables do not match.");
+            }
+            if (expected.Except(actual, new GenericEqualityComparer<T>(predicate)).Any())
+            {
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Expected and actual enumerables do not match.");
             }
         }
 

@@ -9,17 +9,23 @@ namespace EnumerableAssertTests
     public class AreEquivalent
     {
         [TestMethod]
-        public void SourceIsNull()
+        public void FirstIsNull()
         {
             var ex = Assert.ThrowsException<AssertFailedException>(() => EnumerableAssert.AreEquivalent(null, new List<string> { "test" }, (s, t) => s.IndexOf("t") == t.IndexOf("t")));
-            Assert.AreEqual("EnumerableAssert.AreEquivalent failed. Source enumerable is null.", ex.Message);
+            Assert.AreEqual("EnumerableAssert.AreEquivalent failed. Expected enumerable is null.", ex.Message);
         }
 
         [TestMethod]
-        public void TargetIsNull()
+        public void SecondIsNull()
         {
             var ex = Assert.ThrowsException<AssertFailedException>(() => EnumerableAssert.AreEquivalent(new List<string> { "test" }, null, (s,t) => s.IndexOf("t") == t.IndexOf("t")));
-            Assert.AreEqual("EnumerableAssert.AreEquivalent failed. Target enumerable is null.", ex.Message);
+            Assert.AreEqual("EnumerableAssert.AreEquivalent failed. Actual enumerable is null.", ex.Message);
+        }
+
+        [TestMethod]
+        public void FirstAndSecondNull()
+        {
+            EnumerableAssert.AreEquivalent<string>(null, null, (e, a) => e.IndexOf("t") == a.IndexOf("t"));
         }
 
         [TestMethod]
@@ -30,90 +36,105 @@ namespace EnumerableAssertTests
         }
 
         [TestMethod]
-        public void SourceIsEquivalent_SameOrder()
+        public void Equivalent_SameReference()
         {
-            var source = new List<TestType>
+            var enumerable = new List<string> { "test" };
+            EnumerableAssert.AreEquivalent(enumerable, enumerable, (e, a) => throw new Exception("Shouldn't get this"));
+        }
+
+        [TestMethod]
+        public void Equivalent_BothEmpty()
+        {
+            var expected = new List<string>();
+            var actual = new List<string>();
+            EnumerableAssert.AreEquivalent(expected, actual, (e, a) => throw new Exception("Shouldn't get this"));
+        }
+
+        [TestMethod]
+        public void Equivalent_SameOrder()
+        {
+            var expected = new List<TestType>
             {
                 new TestType(0, "0"),
                 new TestType(1, "1"),
             };
-            var target = new List<TestType>
+            var actual = new List<TestType>
             {
                 new TestType(0, "0"),
                 new TestType(1, "not1"),
             };
 
-            EnumerableAssert.AreEquivalent(source, target, (s, t) => s.Id == t.Id);
+            EnumerableAssert.AreEquivalent(expected, actual, (e, a) => e.Id == a.Id);
         }
 
         [TestMethod]
-        public void SourceIsEquivalent_DifferentOrder()
+        public void Equivalent_DifferentOrder()
         {
-            var source = new List<TestType>
+            var expected = new List<TestType>
             {
                 new TestType(0, "0"),
                 new TestType(1, "1")
             };
-            var target = new List<TestType>
+            var actual = new List<TestType>
             {
                 new TestType(1, "not1"),
                 new TestType(0, "0")
             };
 
-            EnumerableAssert.AreEquivalent(source, target, (s, t) => s.Id == t.Id);
+            EnumerableAssert.AreEquivalent(expected, actual, (e, a) => e.Id == a.Id);
         }
 
         [TestMethod]
-        public void SourceIsNotEquivalent_OneElementDifference()
+        public void NotEquivalent_OneElementDifference()
         {
-            var source = new List<TestType>
+            var expected = new List<TestType>
             {
                 new TestType(0, "0"),
                 new TestType(1, "1")
             };
-            var target = new List<TestType>
+            var actual = new List<TestType>
             {
                 new TestType(2, "not1"),
                 new TestType(0, "0")
             };
-            var ex = Assert.ThrowsException<AssertFailedException>(() => EnumerableAssert.AreEquivalent(source, target, (s, t) => s.Id == t.Id));
-            Assert.AreEqual("EnumerableAssert.AreEquivalent failed. Source and target enumerables do not match.", ex.Message);
+            var ex = Assert.ThrowsException<AssertFailedException>(() => EnumerableAssert.AreEquivalent(expected, actual, (e, a) => e.Id == a.Id));
+            Assert.AreEqual("EnumerableAssert.AreEquivalent failed. Expected and actual enumerables do not match.", ex.Message);
         }
 
         [TestMethod]
-        public void SourceIsNotEquivalent_SourceHasExtraElement()
+        public void NotEquivalent_ExpectedHasExtraElement()
         {
-            var source = new List<TestType>
+            var expected = new List<TestType>
             {
                 new TestType(0, "0"),
                 new TestType(1, "1"),
                 new TestType(2, "not1"),
             };
-            var target = new List<TestType>
+            var actual = new List<TestType>
             {
                 new TestType(1, "1"),
                 new TestType(0, "0")
             };
-            var ex = Assert.ThrowsException<AssertFailedException>(() => EnumerableAssert.AreEquivalent(source, target, (s, t) => s.Id == t.Id));
-            Assert.AreEqual("EnumerableAssert.AreEquivalent failed. Source and target enumerables do not match.", ex.Message);
+            var ex = Assert.ThrowsException<AssertFailedException>(() => EnumerableAssert.AreEquivalent(expected, actual, (e, a) => e.Id == a.Id));
+            Assert.AreEqual("EnumerableAssert.AreEquivalent failed. Expected and actual enumerables do not match.", ex.Message);
         }
 
         [TestMethod]
-        public void SourceIsNotEquivalent_TargetHasExtraElement()
+        public void NotEquivalent_ActualHasExtraElement()
         {
-            var source = new List<TestType>
+            var expected = new List<TestType>
             {
                 new TestType(0, "0"),
                 new TestType(1, "1")
             };
-            var target = new List<TestType>
+            var actual = new List<TestType>
             {
                 new TestType(2, "not1"),
                 new TestType(1, "1"),
                 new TestType(0, "0")
             };
-            var ex = Assert.ThrowsException<AssertFailedException>(() => EnumerableAssert.AreEquivalent(source, target, (s, t) => s.Id == t.Id));
-            Assert.AreEqual("EnumerableAssert.AreEquivalent failed. Source and target enumerables do not match.", ex.Message);
+            var ex = Assert.ThrowsException<AssertFailedException>(() => EnumerableAssert.AreEquivalent(expected, actual, (e, a) => e.Id == a.Id));
+            Assert.AreEqual("EnumerableAssert.AreEquivalent failed. Expected and actual enumerables do not match.", ex.Message);
         }
 
         public class TestType
