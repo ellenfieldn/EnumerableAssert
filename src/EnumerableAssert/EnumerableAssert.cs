@@ -239,6 +239,62 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting.Contrib.EnumerableAssert
             }
         }
 
+        public static void AreNotEquivalent<T>(IEnumerable<T> expected, IEnumerable<T> actual)
+        {
+            if (expected == null && actual == null)
+            {
+                throw new AssertFailedException("EnumerableAssert.AreNotEquivalent failed. Both enumerables are null.");
+            }
+            if (expected == null || actual == null)
+            {
+                return;
+            }
+            if (ReferenceEquals(expected, actual))
+            {
+                throw new AssertFailedException("EnumerableAssert.AreNotEquivalent failed. Enumerables refer to the same object.");
+            }
+            if (expected.Count() == 0 && actual.Count() == 0)
+            {
+                throw new AssertFailedException("EnumerableAssert.AreNotEquivalent failed. Both enumerables are empty.");
+            }
+            if (expected.Count() != actual.Count())
+            {
+                return;
+            }
+            if (!expected.Except(actual).Any())
+            {
+                throw new AssertFailedException("EnumerableAssert.AreNotEquivalent failed. Enumerables are equivalent.");
+            }
+        }
+
+        public static void AreNotEquivalent<T>(IEnumerable<T> expected, IEnumerable<T> actual, Func<T, T, bool> predicate)
+        {
+            if (expected == null && actual == null)
+            {
+                throw new AssertFailedException("EnumerableAssert.AreNotEquivalent failed. Both enumerables are null.");
+            }
+            if (expected == null || actual == null)
+            {
+                return;
+            }
+            if (ReferenceEquals(expected, actual))
+            {
+                throw new AssertFailedException("EnumerableAssert.AreNotEquivalent failed. Enumerables refer to the same object.");
+            }
+            if (expected.Count() == 0 && actual.Count() == 0)
+            {
+                throw new AssertFailedException("EnumerableAssert.AreNotEquivalent failed. Both enumerables are empty.");
+            }
+            if (expected.Count() != actual.Count())
+            {
+                return;
+            }
+            if (!expected.Except(actual, new GenericEqualityComparer<T>(predicate)).Any())
+            {
+                throw new AssertFailedException("EnumerableAssert.AreNotEquivalent failed. Enumerables are equivalent.");
+            }
+        }
+
         private class GenericEqualityComparer<T> : IEqualityComparer<T>
         {
             private Func<T, T, bool> _predicate;
