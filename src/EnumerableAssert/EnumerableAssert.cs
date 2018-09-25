@@ -187,6 +187,30 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting.Contrib.EnumerableAssert
             }
         }
 
+        public static void AreEquivalent<T>(IEnumerable<T> expected, IEnumerable<T> actual)
+        {
+            if (expected == null && actual == null || ReferenceEquals(expected, actual))
+            {
+                return;
+            }
+            if (expected == null)
+            {
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Expected enumerable is null.");
+            }
+            if (actual == null)
+            {
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Actual enumerable is null.");
+            }
+            if (expected.Count() != actual.Count())
+            {
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Expected and actual enumerables do not match.");
+            }
+            if (expected.Except(actual).Any())
+            {
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Expected and actual enumerables do not match.");
+            }
+        }
+
         public static void AreEquivalent<T>(IEnumerable<T> expected, IEnumerable<T> actual, Func<T, T, bool> predicate)
         {
             if (predicate == null)
