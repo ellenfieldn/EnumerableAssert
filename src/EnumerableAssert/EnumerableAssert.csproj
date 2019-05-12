@@ -6,15 +6,15 @@
     <Authors>Nathan Ellenfield</Authors>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Copyright>© Nathan Ellenfield. All rights reserved.</Copyright>
-    <PackageLicenseUrl>https://github.com/ellenfieldn/MSTest.TestFramework.Contrib.EnumerableAssert/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/ellenfieldn/MSTest.TestFramework.Contrib.EnumerableAssert</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/ellenfieldn/MSTest.TestFramework.Contrib.EnumerableAssert</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/ellenfieldn/EnumerableAssert/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/ellenfieldn/EnumerableAssert</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ellenfieldn/EnumerableAssert</RepositoryUrl>
     <PackageReleaseNotes>Initial Alpha Release - Now with extensibility</PackageReleaseNotes>
     <PackageTags>assertions enumerable assert MSTest Unittest MSTestV2 Microsoft TestFramework TestAdapter VisualStudio</PackageTags>
-    <Version>0.2.0</Version>
+    <Version>0.2.1</Version>
     <PackageId>EnumerableAssert</PackageId>
-    <AssemblyVersion>0.2.0.0</AssemblyVersion>
-    <FileVersion>0.2.0.0</FileVersion>
+    <AssemblyVersion>0.2.1.0</AssemblyVersion>
+    <FileVersion>0.2.1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
