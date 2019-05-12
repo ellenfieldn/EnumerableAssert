@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting.Contrib.EnumerableAssert;
 
 namespace EnumerableAssertTests
 {
-    [TestClass]
+    [TestClass, TestCategory("Unit Tests")]
     public class Extensibility
     {
         [TestMethod]

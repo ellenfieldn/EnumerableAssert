@@ -17,7 +17,7 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting.Contrib.EnumerableAssert
         {
             get
             {
-                if(that == null)
+                if (that == null)
                 {
                     that = new EnumerableAssert();
                 }
@@ -43,11 +43,11 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting.Contrib.EnumerableAssert
             {
                 throw new AssertFailedException("EnumerableAssert.Contains failed. Collection is null.");
             }
-            if(!enumerable.Any())
+            if (!enumerable.Any())
             {
                 throw new AssertFailedException("EnumerableAssert.Contains failed. Collection is empty.");
             }
-            if(!enumerable.Contains(item))
+            if (!enumerable.Contains(item))
             {
                 throw new AssertFailedException("EnumerableAssert.Contains failed. Collection does not contain the expected element.");
             }
@@ -88,11 +88,11 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting.Contrib.EnumerableAssert
                 throw new AssertFailedException("EnumerableAssert.ContainsOne failed. Collection is empty.");
             }
             var matches = enumerable.Where(i => i.Equals(item)).Count();
-            if(matches == 0)
+            if (matches == 0)
             {
                 throw new AssertFailedException("EnumerableAssert.ContainsOne failed. Collection does not contain the expected element.");
             }
-            if(matches > 1)
+            if (matches > 1)
             {
                 throw new AssertFailedException("EnumerableAssert.ContainsOne failed. Collection contains the expected element more than once.");
             }
@@ -181,10 +181,143 @@ namespace Microsoft.VisualStudio.TestTools.UnitTesting.Contrib.EnumerableAssert
             {
                 throw new AssertFailedException("EnumerableAssert.DoesNotContain failed. Collection is empty.");
             }
-            if(enumerable.Any(predicate))
+            if (enumerable.Any(predicate))
             {
                 throw new AssertFailedException("EnumerableAssert.DoesNotContain failed. Collection contains an element matching the predicate.");
             }
+        }
+
+        public static void AreEquivalent<T>(IEnumerable<T> expected, IEnumerable<T> actual)
+        {
+            if (expected == null && actual == null || ReferenceEquals(expected, actual))
+            {
+                return;
+            }
+            if (expected == null)
+            {
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Expected enumerable is null.");
+            }
+            if (actual == null)
+            {
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Actual enumerable is null.");
+            }
+            if (expected.Count() != actual.Count())
+            {
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Expected and actual enumerables do not match.");
+            }
+            if (expected.Except(actual).Any())
+            {
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Expected and actual enumerables do not match.");
+            }
+        }
+
+        public static void AreEquivalent<T>(IEnumerable<T> expected, IEnumerable<T> actual, Func<T, T, bool> predicate)
+        {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+            if(expected == null && actual == null || ReferenceEquals(expected, actual))
+            {
+                return;
+            }
+            if (expected == null)
+            {
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Expected enumerable is null.");
+            }
+            if (actual == null)
+            {
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Actual enumerable is null.");
+            }
+            if(expected.Count() != actual.Count())
+            {
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Expected and actual enumerables do not match.");
+            }
+            if (expected.Except(actual, new GenericEqualityComparer<T>(predicate)).Any())
+            {
+                throw new AssertFailedException("EnumerableAssert.AreEquivalent failed. Expected and actual enumerables do not match.");
+            }
+        }
+
+        public static void AreNotEquivalent<T>(IEnumerable<T> expected, IEnumerable<T> actual)
+        {
+            if (expected == null && actual == null)
+            {
+                throw new AssertFailedException("EnumerableAssert.AreNotEquivalent failed. Both enumerables are null.");
+            }
+            if (expected == null || actual == null)
+            {
+                return;
+            }
+            if (ReferenceEquals(expected, actual))
+            {
+                throw new AssertFailedException("EnumerableAssert.AreNotEquivalent failed. Enumerables refer to the same object.");
+            }
+            if (expected.Count() == 0 && actual.Count() == 0)
+            {
+                throw new AssertFailedException("EnumerableAssert.AreNotEquivalent failed. Both enumerables are empty.");
+            }
+            if (expected.Count() != actual.Count())
+            {
+                return;
+            }
+            if (!expected.Except(actual).Any())
+            {
+                throw new AssertFailedException("EnumerableAssert.AreNotEquivalent failed. Enumerables are equivalent.");
+            }
+        }
+
+        public static void AreNotEquivalent<T>(IEnumerable<T> expected, IEnumerable<T> actual, Func<T, T, bool> predicate)
+        {
+            if (expected == null && actual == null)
+            {
+                throw new AssertFailedException("EnumerableAssert.AreNotEquivalent failed. Both enumerables are null.");
+            }
+            if (expected == null || actual == null)
+            {
+                return;
+            }
+            if (ReferenceEquals(expected, actual))
+            {
+                throw new AssertFailedException("EnumerableAssert.AreNotEquivalent failed. Enumerables refer to the same object.");
+            }
+            if (expected.Count() == 0 && actual.Count() == 0)
+            {
+                throw new AssertFailedException("EnumerableAssert.AreNotEquivalent failed. Both enumerables are empty.");
+            }
+            if (expected.Count() != actual.Count())
+            {
+                return;
+            }
+            if (!expected.Except(actual, new GenericEqualityComparer<T>(predicate)).Any())
+            {
+                throw new AssertFailedException("EnumerableAssert.AreNotEquivalent failed. Enumerables are equivalent.");
+            }
+        }
+
+        private class GenericEqualityComparer<T> : IEqualityComparer<T>
+        {
+            private Func<T, T, bool> _predicate;
+
+            public GenericEqualityComparer(Func<T, T, bool> predicate)
+            {
+                _predicate = predicate ?? throw new ArgumentNullException(nameof(predicate));
+            }
+
+            public bool Equals(T x, T y)
+            {
+                if(x == null && y == null)
+                {
+                    return true;
+                }
+                if(x == null || y == null)
+                {
+                    return false;
+                }
+                return _predicate(x, y);
+            }
+
+            public int GetHashCode(T obj) => 0; //This is bad
         }
     }
 }

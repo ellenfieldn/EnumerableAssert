@@ -1,4 +1,4 @@
-# EnumerableAssert
+# MSTest.TestFramework.Contrib.EnumerableAssert
 Provides assertions for `IEnumerable<T>` that follow the same patterns as the assertion classes provided in MSTest.TestFramework
 
 Example:
@@ -20,6 +20,8 @@ EnumerableAssert.DoesNotContain(collection, s => s.IndexOf("u") == 0); //Throws 
 ## Plan
 In no particular order:
 
+- Add assertion similar to CollectionAssert.AreEquivalent, but that instead asserts that everything in collection A matches an element in collection B via a specified predicate
+- Same as above, but for Equals and the various subset/superset options. 
 - Add assertions for non-generic collections such as `IEnumerable`.
 - Each method will contain overloads like the following
   - `EnumerableAssert.IsNullOrEmpty<T>(IEnumerable<T>)`
